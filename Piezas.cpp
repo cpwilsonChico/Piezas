@@ -22,9 +22,9 @@
 **/
 Piezas::Piezas()
 {
-	board = vector<vector<Piece>>(BOARD_ROWS);
+	board = std::vector< std::vector<Piece> >(BOARD_ROWS);
 	for (int i = 0; i < BOARD_ROWS; i++) {
-		board[i] = vector<Piece>(BOARD_COLUMNS);
+		board[i] = std::vector<Piece>(BOARD_COLS);
 	}
 	reset();
 	turn = X;
@@ -38,7 +38,7 @@ void Piezas::reset()
 {
 	for (int i = 0; i < BOARD_ROWS; i++) {
 		for (int j = 0; j < BOARD_COLS; j++) {
-			board[i][j] = Blank
+			board[i][j] = Blank;
 		}
 	}
 }
@@ -106,8 +106,6 @@ Piece Piezas::gameState()
 
     int maxX = 0;
     int maxO = 0;
-    Piece prev;
-    Piece cur;
 
     // check verticals - X
     for (int i = 0; i < BOARD_COLS; i++) {
