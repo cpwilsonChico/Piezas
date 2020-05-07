@@ -22,6 +22,12 @@
 **/
 Piezas::Piezas()
 {
+	board = vector<vector<Piece>>(BOARD_ROWS);
+	for (int i = 0; i < BOARD_ROWS; i++) {
+		board[i] = vector<Piece>(BOARD_COLUMNS);
+	}
+	reset();
+	turn = X;
 }
 
 /**
@@ -30,6 +36,11 @@ Piezas::Piezas()
 **/
 void Piezas::reset()
 {
+	for (int i = 0; i < BOARD_ROWS; i++) {
+		for (int j = 0; j < BOARD_COLS; j++) {
+			board[i][j] = Blank
+		}
+	}
 }
 
 /**
@@ -42,7 +53,23 @@ void Piezas::reset()
 **/ 
 Piece Piezas::dropPiece(int column)
 {
-    return Blank;
+	bool dropped = false;	
+    	for (int i = 0; i < BOARD_ROWS; i++) {
+		if (pieceAt(i, column) == Blank) {
+			board[i][column] = turn;
+			dropped = true;
+			break;
+		}
+    	}
+	Piece prevTurn = turn;
+	if (turn == X) turn = O;
+	else turn = X;
+
+	if (!dropped) {
+		if (column >= BOARD_COLS) return Invalid;
+		return Blank;
+	}
+    	return prevTurn;
 }
 
 /**
@@ -51,7 +78,11 @@ Piece Piezas::dropPiece(int column)
 **/
 Piece Piezas::pieceAt(int row, int column)
 {
-    return Blank;
+    if (row < 0 || row >= BOARD_ROWS || column < 0 || column >= BOARD_COLS) {
+	return Invalid;
+    }
+
+    return board[row][column];
 }
 
 /**
@@ -65,5 +96,60 @@ Piece Piezas::pieceAt(int row, int column)
 **/
 Piece Piezas::gameState()
 {
+    for (int i = 0; i < BOARD_ROWS; i++) {
+	for (int j = 0; j < BOARD_COLS; j++) {
+	    if (pieceAt(i, j) != Blank) {
+		return Invalid;
+	    }
+	}
+    }
+
+    int maxX = 0;
+    int maxO = 0;
+    Piece prev;
+    Piece cur;
+
+    // check verticals - X
+    for (int i = 0; i < BOARD_COLS; i++) {
+	int consec = 0;
+	for (int j = 0; j < BOARD_ROWS; j++) {
+		if (pieceAt(j, i) == X) consec++;
+		else consec = 0;
+	}
+	if (consec > maxX) maxX = consec;
+    }
+
+    // check verticals - O
+    for (int i = 0; i < BOARD_COLS; i++) {
+	int consec = 0;
+	for (int j = 0; j < BOARD_ROWS; j++) {
+		if (pieceAt(j, i) == O) consec++;
+		else consec = 0;
+	}
+	if (consec > maxO) maxO = consec;
+    }
+
+    // check horizontals - X
+    for (int i = 0; i < BOARD_ROWS; i++) {
+	int consec = 0;
+	for (int j = 0; j < BOARD_COLS; j++) {
+		if (pieceAt(i, j) == X) consec++;
+		else consec = 0;
+	}
+	if (consec > maxX) maxX = consec;
+    }
+
+    // check horizontals - O
+    for (int i = 0; i < BOARD_ROWS; i++) {
+	int consec = 0;
+	for (int j = 0; j < BOARD_COLS; j++) {
+		if (pieceAt(i, j) == O) consec++;
+		else consec = 0;
+	}
+	if (consec > maxO) maxO = consec;
+    }
+
+    if (maxX > maxO) return X;
+    if (maxO > maxX) return O;
     return Blank;
 }
