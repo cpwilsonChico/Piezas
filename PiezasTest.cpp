@@ -106,7 +106,7 @@ TEST(PiezasTest, placeInit7) {
 	p.dropPiece(0);
 	p.dropPiece(1);
 	p.dropPiece(0);
-	ASSERT_EQ(p.pieceAt(0, 2), O);
+	ASSERT_EQ(p.pieceAt(2, 0), O);
 }
 
 TEST(PiezasTest, placeInit8) {
@@ -159,7 +159,7 @@ TEST(PiezasTest, game0) {
 TEST(PiezasTest, game1) {
 	// - - - -
 	// X O X O
-	// X O X O
+	// O X O X
 	// X O X O
 	Piezas p;
 	for (int i = 0; i < BOARD_COLS; i++) {
@@ -201,9 +201,9 @@ TEST(PiezasTest, game4) {
 	// - - - - 
 	// O O O O
 	// O X X O
-	// X X X O    
+	// X X X O   
 	Piezas p;
-	int turns[] = {1, 3, 1, 3, 0, 0, 2, 0, 2, 3, 3, 1, 3, 1}; //14
+	int turns[] = {1, 3, 1, 3, 0, 0, 2, 0, 2, 3, 3, 1, 3, 2}; //14
 	for (int i = 0; i < 14; i++) {
 		p.dropPiece(turns[i]);
 	}
@@ -286,5 +286,18 @@ TEST(PiezasTest, game10) {
 		p.dropPiece(turns[i]);
 	}
 	ASSERT_EQ(p.gameState(), Invalid);
+}
+
+TEST(PiezasTest, game11) {
+	// - - - -
+	// X O X O
+	// X O X O
+	// X O X O
+	Piezas p;
+	int turns[] = {0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3};
+	for (int i = 0; i < 12; i++) {
+		p.dropPiece(turns[i]);
+	}
+	ASSERT_EQ(p.gameState(), Blank);
 }
 
