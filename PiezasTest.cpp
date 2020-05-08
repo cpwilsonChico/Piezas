@@ -31,7 +31,7 @@ TEST(PiezasTest, pieceAtInit2) {
 
 TEST(PiezasTest, pieceAtInit3) {
 	Piezas p;
-	ASSERT_EQ(p.pieceAt(3, 4), Blank);
+	ASSERT_EQ(p.pieceAt(3, 4), Invalid);
 }
 
 TEST(PiezasTest, pieceAtInit4) {
@@ -47,6 +47,11 @@ TEST(PiezasTest, pieceAtInit5) {
 TEST(PiezasTest, pieceAtInit6) {
 	Piezas p;
 	ASSERT_EQ(p.pieceAt(-1, 0), Invalid);
+}
+
+TEST(PiezasTest, pieceAtInit7) {
+	Piezas p;
+	ASSERT_EQ(p.pieceAt(2, 3), Blank);
 }
 
 
@@ -75,7 +80,7 @@ TEST(PiezasTest, placeInit4) {
 	Piezas p;
 	p.dropPiece(0);
 	p.dropPiece(0);
-	ASSERT_EQ(p.pieceAt(0, 1), O);
+	ASSERT_EQ(p.pieceAt(1, 0), O);
 }
 
 TEST(PiezasTest, placeInit5) {
@@ -83,7 +88,7 @@ TEST(PiezasTest, placeInit5) {
 	p.dropPiece(0);
 	p.dropPiece(0);
 	p.dropPiece(0);
-	ASSERT_EQ(p.pieceAt(0, 2), X);
+	ASSERT_EQ(p.pieceAt(2, 0), X);
 }
 
 TEST(PiezasTest, placeInit6) {
